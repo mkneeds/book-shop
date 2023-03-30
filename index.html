@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<title>Book Store</title>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="format-detection" content="telephone=no">
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="author" content="">
+	    <meta name="keywords" content="">
+	    <meta name="description" content="">
+
+	    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+	    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+	    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+	    <link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="css/log-reg.css">
+		<link rel="stylesheet" type="text/css" href="./auth/css/auth-profile.css">
+		<link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./smartbasket/css/smartbasket.min.css">
+		<!-- script
+		================================================== -->
+		<script src="js/modernizr.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="./auth/html-auth.js"></script>
+	</head>
+
+<body>
+
+<div class="login-box" id="loginForm">
+	<h2 style="text-decoration: underline;  text-underline-offset: 0.4em;">Авторизация</h2>
+	<form method="post" >
+		<div class="button-close-auth"><div class="cl-btn-7" onclick="closeLoginForm()"></div></div>
+
+		<div class="user-box">
+			<input type="text" name="username-login" required="" id="username-login">
+			<label>Логин</label>
+		</div>
+		<div class="user-box">
+			<input type="password" name="password-login" required="" id="password-login">
+			<label>Пароль</label>
+		</div>
+        <div class="pre-button">
+			<a style="font-size: 8px;">Забыли пароль?</a>
+
+		</div>
+		<a type="submit" href="#" onclick="" id="login-button">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			Войти
+		</a>
+		<a onclick="openRegForm()">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			Регистрация
+		</a>
+	</form>
+</div>
+
+
+<div class="login-box" id="regForm">
+	<h2 style="text-decoration: underline;  text-underline-offset: 0.4em;">Регистрация</h2>
+	<form method="post" >
+		<div class="button-close-auth"><div class="cl-btn-7" onclick="closeLoginForm()"></div></div>
+
+		<div class="user-box">
+			<input type="text" name="fio" id="fio" required="">
+			<label>ФИО</label>
+		</div>
+
+		<div class="user-box">
+			<input  type="email" name="email" required="" id="email" placeholder="">
+			<label>Email</label>
+		</div>
+		<div class="user-box">
+			<input type="text" name="reg-login" required="" id="reg-login" placeholder="">
+			<label>Логин</label>
+		</div>
+		<div class="user-box">
+			<input type="password" name="reg-password" id="reg-password" required="">
+			<label>Пароль</label>
+		</div>
+
+		<a type="submit" href="#" onclick="" id="reg-button">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			Зарегистрироваться
+		</a>
+
+	</form>
+	<script>
+		const buttonn = document.getElementById("reg-button");
+		buttonn.addEventListener('click', function(event) {
+			const fio = document.getElementById("fio").value;
+			const email = document.getElementById("email").value;
+			const reg_login = document.getElementById("reg-login").value;
+			const reg_password = document.getElementById("reg-password").value;
+			console.log(reg_login)
+			event.preventDefault(); // предотвращаем переход по ссылке по умолчанию
+
+			const data = { // объект с данными для отправки
+				username: reg_login,
+				password: reg_password
+			};
+
+			fetch('auth/registration', { // отправляем POST-запрос на URL '/my-api'
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data) // преобразуем данные в формат JSON и отправляем
+			})
+					.then(response => response.json())
+					.then(data => {
+						console.log(data); // выводим ответ сервера в консоль
+					})
+					.catch(error => {
+						console.error(error); // выводим ошибку в консоль, если что-то пошло не так
+					});
+		});
+
+
+
+	</script>
+</div>
+<script>
+	// Получить модальное окно
+	var modal = document.getElementById("loginForm");
+	var modal_2 = document.getElementById("regForm");
+	modal_2.style.display="none";
+    modal.style.display ="none";
+	var btn = document.querySelector("button");
+	var span = document.getElementsByClassName("close")[0];
+
+	// Функция для открытия модального окна
+	function openLoginForm() {
+
+		modal.style.display = "block";
+
+	}
+	function closeLoginForm() {
+		modal.style.display = "none";
+		modal_2.style.display = "none";
+	}
+	function openRegForm(){
+
+		modal_2.style.display="block";
+		modal.style.display="none";
+	}
+</script>
+
+<div id="header-wrap">
+	<div class="top-content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="social-links">
+						<ul>
+							<li>
+								<a href="#"><i class="icon icon-facebook"></i></a>
+							</li>
+							<li>
+								<a href="#"><i class="icon icon-twitter"></i></a>
+							</li>
+							<li>
+								<a href="#"><i class="icon icon-youtube-play"></i></a>
+							</li>
+
+						</ul>
+					</div><!--social-links-->
+				</div>
+				<div class="col-md-6">
+					<div class="right-element">
+						<a href="#" class="user-account for-buy"><i class="icon icon-user"></i><span onclick="openLoginForm()" id="auth-button"> Войти в аккаунт</span></a>
+						<a href="#" class="cart for-buy"><i class="icon icon-clipboard"></i><span> Корзина: (0 $)</span></a>
+
+						<div class="action-menu">
+
+							<div class="search-bar">
+								<a href="#" class="search-button search-toggle" data-selector="#header-wrap">
+									<i class="icon icon-search"></i>
+								</a>
+								<form role="search" method="get" class="search-box">
+									<input class="search-field text search-input" placeholder="Search" type="search">
+								</form>
+							</div>
+						</div>
+
+					</div><!--top-right-->
+				</div>
+				
+			</div>
+		</div>
+	</div><!--top-content-->
+
+	<header id="header">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-2">
+					<div class="main-logo">
+						<b style="font-size: 25px; color: rgba(14,12,2,0.81)">The Victors`s Book Co.</b>
+					</div>
+
+				</div>
+
+				<div class="col-md-10">
+					
+					<nav id="navbar">
+						<div class="main-menu stellarnav">
+							<ul class="menu-list">
+								<li class="menu-item active"><a href="/" data-effect="Home">Главная</a></li>
+								<li class="menu-item"><a href="/shop" class="nav-link" data-effect="About">Магазин</a></li>
+								<li class="menu-item"><a href="#popular-books" class="nav-link" data-effect="Shop">О нас</a></li>
+								<li class="menu-item"><a href="#contact" class="nav-link" data-effect="Contact">Контакты</a></li>
+
+							</ul>
+
+							<div class="hamburger">
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				                <span class="bar"></span>
+				            </div>
+
+						</div>
+					</nav>
+
+				</div>
+
+			</div>
+		</div>
+	</header>
+		
+</div><!--header-wrap-->
+
+<section id="billboard">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<button class="prev slick-arrow">
+					<i class="icon icon-arrow-left"></i>
+				</button>
+
+				<div class="main-slider pattern-overlay">
+					<div class="slider-item">
+						<div class="banner-content">
+							<h2 class="banner-title">К себе <span style="color: #fa2da9">нежно</span></h2>
+							<p>«К себе нежно» – это новый, очень честный взгляд на любовь к себе. Это книга-медитация, которая призывает к внутреннему разговору и помогает услышать собственный голос среди множества других.</p>
+							<div class="btn-wrap">
+								<a href="#" class="btn btn-outline-accent btn-accent-arrow">В корзину...<i class="icon icon-ns-arrow-right"></i></a>
+							</div>
+						</div><!--banner-content--> 
+						<img src="images/img_1.png" alt="banner" class="banner-image" style="height: 600px;box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.5);">
+					</div><!--slider-item-->
+
+					<div class="slider-item">
+						<div class="banner-content">
+							<h2 class="banner-title">Как не сойти с ума.</h2>
+							<p>Хотите всегда оставаться спокойным, уравновешенным и четко распределять свое время?</p>
+							<div class="btn-wrap">
+								<a href="#" class="btn btn-outline-accent btn-accent-arrow">В корзину<i class="icon icon-ns-arrow-right"></i></a>
+							</div>
+						</div><!--banner-content--> 
+						<img src="images/img_2.png" alt="banner" class="banner-image" style="height: 500px; width: 400px;margin-top: 50px;">
+					</div><!--slider-item-->
+
+				</div><!--slider-->
+					
+				<button class="next slick-arrow">
+					<i class="icon icon-arrow-right"></i>
+				</button>
+				
+			</div>
+		</div>
+	</div>
+	
+</section>
+
+<section id="client-holder" data-aos="fade-up">
+	<div class="container">
+		<div class="row">
+			<div class="inner-content">
+				<div class="logo-wrap">
+					<div class="grid">
+						<a href="#"><img src="images/client-image1.png" alt="client"></a>
+						<a href="#"><img src="images/client-image2.png" alt="client"></a>
+						<a href="#"><img src="images/client-image3.png" alt="client"></a>
+						<a href="#"><img src="images/client-image4.png" alt="client"></a>
+						<a href="#"><img src="images/client-image5.png" alt="client"></a>
+					</div>
+				</div><!--image-holder-->
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="featured-books">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+			<div class="section-header align-center">
+				<div class="title">
+					<span>Книги - это самые тихие и постоянные друзья</span>
+				</div>
+				<h2 class="section-title">Новинки</h2>
+			</div>
+
+			<div class="product-list" data-aos="fade-up">
+				<div class="row">
+					<div class="col-md-3">
+						<figure class="product-style">
+							<img src="images/product-item1.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Simple way of piece life</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+				
+					<div class="col-md-3">
+						<figure class="product-style">
+							<img src="images/product-item2.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Great travel at desert</h3>
+								<p>Sanchit Howdy</p>
+								<div class="item-price">$ 38.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+					<div class="col-md-3">
+						<figure class="product-style">
+							<img src="images/product-item3.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>The lady beauty Scarlett</h3>
+								<p>Arthur Doyle</p>
+								<div class="item-price">$ 45.00</div>
+							</figcaption>
+						</figure>
+					</div>
+									
+					<div class="col-md-3">
+						<figure class="product-style">
+							<img src="images/product-item4.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Once upon a time</h3>
+								<p>Klien Marry</p>
+								<div class="item-price">$ 35.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+			    </div><!--ft-books-slider-->				
+			</div><!--grid-->
+
+
+			</div><!--inner-content-->
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="btn-wrap align-right">
+					<a href="#" class="btn-accent-arrow">Ко всему списку<i class="icon icon-ns-arrow-right"></i></a>
+				</div>
+				
+			</div>		
+		</div>
+	</div>
+</section>
+
+<section id="best-selling" class="leaf-pattern-overlay">
+	<div class="corner-pattern-overlay"></div>
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-8 col-md-offset-2">
+
+				<div class="row">
+
+					<div class="col-md-6">
+						<figure class="products-thumb">
+							<img src="images/single-image.jpg" alt="book" class="single-image">
+						</figure>	
+					</div>
+
+					<div class="col-md-6">
+						<div class="product-entry">
+							<h2 class="section-title divider">Самая продаваемая книга</h2>
+
+							<div class="products-content">
+								<div class="author-name">By Timbur Hood</div>
+								<h3 class="item-title">Birds gonna be happy</h3>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu feugiat amet, libero ipsum enim pharetra hac.</p>
+								<div class="item-price">$ 45.00</div>
+								<div class="btn-wrap">
+									<a href="#" class="btn-accent-arrow">Купить сейчас <i class="icon icon-ns-arrow-right"></i></a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				<!-- / row -->
+
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<section id="popular-books" class="bookshelf">
+	<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="section-header align-center">
+				<div class="title">
+					<span>Книги - это самые тихие и постоянные друзья</span>
+				</div>
+				<h2 class="section-title">Популярные книги</h2>
+			</div>
+   
+			<ul class="tabs">
+			  <li data-tab-target="#all-genre" class="active tab">Все жанры</li>
+			  <li data-tab-target="#business" class="tab">Бизнес</li>
+			  <li data-tab-target="#technology" class="tab">Техно</li>
+			  <li data-tab-target="#romantic" class="tab">Романтика</li>
+			  <li data-tab-target="#adventure" class="tab">Приключения</li>
+			  <li data-tab-target="#fictional" class="tab">Фэнтези</li>
+			</ul>
+
+			<div class="tab-content">
+			  <div id="all-genre" data-tab-content class="active">
+			  	<div class="row">
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item1.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Portrait photography</h3>
+								<p>Adam Silber</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item2.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Once upon a time</h3>
+								<p>Klien Marry</p>
+								<div class="item-price">$ 35.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item3.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Tips of simple lifestyle</h3>
+								<p>Bratt Smith</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item4.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Just felt from outside</h3>
+								<p>Nicole Wilson</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				</div>
+				<div class="row">
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item5.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Peaceful Enlightment</h3>
+								<p>Marmik Lama</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item6.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Great travel at desert</h3>
+								<p>Sanchit Howdy</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item7.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Life among the pirates</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item8.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Simple way of piece life</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+		    	</div>
+
+			  </div>
+			  <div id="business" data-tab-content>
+			  	<div class="row">
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item2.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Peaceful Enlightment</h3>
+								<p>Marmik Lama</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item4.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Great travel at desert</h3>
+								<p>Sanchit Howdy</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item6.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Life among the pirates</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item8.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Simple way of piece life</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+		    	 </div>
+			  </div>
+
+			  <div id="technology" data-tab-content>
+			  	<div class="row">
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item1.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Peaceful Enlightment</h3>
+								<p>Marmik Lama</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item3.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Great travel at desert</h3>
+								<p>Sanchit Howdy</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item5.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Life among the pirates</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item7.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Simple way of piece life</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+		    	 </div>
+			  </div>
+
+			  <div id="romantic" data-tab-content>
+			  	<div class="row">
+		    	  <div class="col-md-3">
+			    	  <figure class="product-style">
+							<img src="images/tab-item1.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Peaceful Enlightment</h3>
+								<p>Marmik Lama</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item3.jpg" alt="Books" class="product-item">
+							<figcaption>
+								<h3>Great travel at desert</h3>
+								<p>Sanchit Howdy</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item5.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Life among the pirates</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item7.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Simple way of piece life</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+		    	 </div>
+			  </div>
+
+			  <div id="adventure" data-tab-content>
+			  	<div class="row">
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item5.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Life among the pirates</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item7.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Simple way of piece life</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+		    	 </div>
+			  </div>
+
+			  <div id="fictional" data-tab-content>
+			  	<div class="row">
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item5.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Life among the pirates</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+
+				  	<div class="col-md-3">
+					  	<figure class="product-style">
+							<img src="images/tab-item7.jpg" alt="Books" class="product-item">
+
+							<figcaption>
+								<h3>Simple way of piece life</h3>
+								<p>Armor Ramsey</p>
+								<div class="item-price">$ 40.00</div>
+							</figcaption>
+						</figure>
+					</div>
+		    	 </div>
+			  </div>
+
+			</div>
+
+		</div><!--inner-tabs-->
+			
+		</div>
+	</div>
+</section>
+
+<section id="quotation" class="align-center">
+	<div class="inner-content">
+		<h2 class="section-title divider">Цитата дня</h2>
+		<blockquote data-aos="fade-up">
+			<q>Читая книги, мы путешествуем во времени и пространстве, открываем новые миры и получаем неограниченный доступ к знаниям.</q>
+			<div class="author-name">Карл Саган</div>
+		</blockquote>
+	</div>		
+</section>
+
+
+
+<section id="subscribe">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-8 col-md-offset-2">
+				<div class="row">
+
+					<div class="col-md-6">
+
+						<div class="title-element">
+							<h2 style="margin-top: -50px;" class="section-title divider">Подпишись на рассылку</h2>
+						</div>
+
+					</div>
+					<div class="col-md-6">
+
+						<div class="subscribe-content" data-aos="fade-up">
+							<p></p>
+							<form id="form">
+								<input type="text" name="email" placeholder="Введите свою почту">
+								<button class="btn-subscribe">
+									<span>Отправить</span>
+									<i class="icon icon-send"></i>
+								</button>
+							</form>
+						</div>
+
+					</div>
+					
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</section>
+
+
+
+
+
+<footer id="footer">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-4">
+
+				<div class="footer-item">
+					<div class="company-brand">
+						<img src="images/main-logo.png" alt="logo" class="footer-logo">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames semper erat ac in suspendisse iaculis.</p>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-md-2">
+
+				<div class="footer-menu">
+					<h5>About Us</h5>
+					<ul class="menu-list">
+						<li class="menu-item">
+							<a href="#">vision</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">articles </a>
+						</li>
+						<li class="menu-item">
+							<a href="#">careers</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">service terms</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">donate</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+			<div class="col-md-2">
+
+				<div class="footer-menu">
+					<h5>Discover</h5>
+					<ul class="menu-list">
+						<li class="menu-item">
+							<a href="#">Home</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">Books</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">Authors</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">Subjects</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">Advanced Search</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+			<div class="col-md-2">
+
+				<div class="footer-menu">
+					<h5>My account</h5>
+					<ul class="menu-list">
+						<li class="menu-item">
+							<a href="#">Sign In</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">View Cart</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">My Wishtlist</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">Track My Order</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+			<div class="col-md-2">
+
+				<div class="footer-menu">
+					<h5>Help</h5>
+					<ul class="menu-list">
+						<li class="menu-item">
+							<a href="#">Help center</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">Report a problem</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">Suggesting edits</a>
+						</li>
+						<li class="menu-item">
+							<a href="#">Contact us</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+		</div>
+		<!-- / row -->
+
+	</div>
+</footer>
+
+<div id="footer-bottom">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<div class="copyright">
+					<div class="row">
+
+						<div class="col-md-6">
+							<p>© 2023 Best wishes Marina Salapura</p>
+						</div>
+
+						<div class="col-md-6">
+							<div class="social-links align-right">
+								<ul>
+									<li>
+										<a href="#"><i class="icon icon-facebook"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="icon icon-twitter"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="icon icon-youtube-play"></i></a>
+									</li>
+									<li>
+										<a href="#"><i class="icon icon-behance-square"></i></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+				</div><!--grid-->
+
+			</div><!--footer-bottom-content-->
+		</div>
+	</div>
+</div>
+
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>	
