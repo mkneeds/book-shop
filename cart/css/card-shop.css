@@ -1,0 +1,242 @@
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: 50px;
+}
+
+.product-card {
+    width: 300px;
+    margin-bottom: 30px;
+    background-color: #f3e8e8;
+    border: 1px solid #ec4d4d;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.product-image {
+
+    position: relative;
+    width: 100%;
+    height: 200px;
+    border-radius: 10px 20px 30px 40px;
+    overflow: hidden;
+}
+
+.product-image img {
+    border-radius: 10px 20px 30px 40px;
+    position: absolute;
+    top: 5px;
+    left: 25%;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-image:hover img {
+    border-radius: 10px 20px 30px 40px;
+    transform: scale(1.1);
+}
+
+.product-details {
+    padding: 15px;
+}
+
+.product-name {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.product-description {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.product-category {
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #999;
+}
+.my-cart-add {
+    display: inline-block;
+    background-color: #f5deb3;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #333;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.my-cart-add:hover {
+    background-color: #d4af37;
+}
+
+.my-cart-add:hover .cart-icon {
+    transform: rotate(360deg);
+}
+
+.my-cart-add span {
+    z-index: 1;
+    position: relative;
+}
+
+.cart-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;
+}
+.my-cart-add {
+    position: relative;
+    display: inline-block;
+    padding: 20px 82px;
+    background-color: #c0bdbd;
+    border: none;
+    border-radius: 35px;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    overflow: hidden;
+    transition: all 1s ease;
+}
+
+.my-cart-add span {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+
+.my-cart-add i {
+    position: absolute;
+    top: 30px;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.my-cart-add:hover i {
+    transform: translateX(0%);
+    right: 0;
+}
+
+.my-cart-add:hover {
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+
+.my-card-add {
+    margin-left: 25px;
+    display: inline-block;
+    background-color: #f5deb3;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #333;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.my-card-add:hover {
+    background-color: #d4af37;
+}
+
+.my-card-add:hover .card-icon {
+    transform: rotate(360deg);
+}
+
+.my-card-add span {
+    z-index: 1;
+    position: relative;
+}
+
+.card-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;
+}
+.my-card-add {
+    position: relative;
+    display: inline-block;
+    padding: 20px 82px;
+    background-color: #c0bdbd;
+    border: none;
+    border-radius: 35px;
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    overflow: hidden;
+    transition: all 1s ease;
+}
+
+.my-card-add span {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+
+.my-card-add i {
+    position: absolute;
+    top: 30px;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.my-card-add:hover i {
+    transform: translateX(0%);
+    right: 0;
+}
+
+.my-card-add:hover {
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}

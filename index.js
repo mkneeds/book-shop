@@ -1,17 +1,29 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const express = require('express')
 const path = require('path');
 const mongoose = require('mongoose')
 const authRouter = require('./auth/authRouter')
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 5000
-
+const cons = require('consolidate');
+const dust = require('dustjs-linkedin');
+const productRoutes = require('./cart/productRoutes')
 
 const app = express()
 
 
-app.use(express.json())
-app.use("/auth", authRouter)
+app.use(express.json());
 app.use(express.static(path.join(__dirname)));
+app.use("/auth", authRouter);
+
+app.engine('dust', cons.dust);
+app.set('view engine', 'dust');
+app.set('views', path.join(__dirname, '/views'));
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/products', productRoutes);
 
 const start = async () => {
     try {
@@ -24,10 +36,10 @@ const start = async () => {
                 console.log(err);
             })
         app.get('/', (req, res) => {
-            res.sendFile(`C:\\Users\\User\\Desktop\\booksaw-book-store-html-template\\index.html`);
+            res.sendFile(`C:\\Users\\User\\Desktop\\book-store\\index.html`);
         });
        app.get('/shop', (req, res) => {
-           res.sendFile(`C:\\Users\\User\\Desktop\\booksaw-book-store-html-template\\shop.html`);
+           res.sendFile(`C:\\Users\\User\\Desktop\\book-store\\shop.html`);
        });
 
         app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`))

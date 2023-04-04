@@ -4,6 +4,8 @@ const controller = require('./authController')
 const {check} = require("express-validator")
 const authMiddleware = require('../middleware/authMiddleware')
 const roleMiddleware = require('../middleware/roleMiddleware')
+const Product = require('../cart/Product')
+
 
 router.post('/registration', [
     check('username', "Имя пользователя не может быть пустым").notEmpty(),
@@ -16,5 +18,7 @@ router.get('/logout',authMiddleware,(req,res)=>{
     res.clearCookie('token');
     res.redirect('/');
 })
+router.post('/forgot-password', controller.forgotPassword);
+
 
 module.exports = router

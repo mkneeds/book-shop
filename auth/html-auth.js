@@ -99,5 +99,31 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
     });
+    var button2 = document.getElementById('zab');
+    button2.addEventListener('click', function() {
+        // Получаем email пользователя, введенный в форму
+        const email = document.getElementById('zab_email').value;
+
+        // Отправляем запрос на сервер для отправки письма на указанный email
+        fetch('auth/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Письмо с инструкциями по сбросу пароля отправлено на указанный email');
+                } else {
+                    alert('Не удалось отправить письмо. Попробуйте еще раз');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Не удалось отправить письмо. Попробуйте еще раз');
+            });
+    });
 
 });
+

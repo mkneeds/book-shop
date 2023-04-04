@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/booksaw-book-store-html-template.iml" filepath="$PROJECT_DIR$/.idea/booksaw-book-store-html-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/book-store.iml" filepath="$PROJECT_DIR$/.idea/book-store.iml" />
     </modules>
   </component>
 </project>
