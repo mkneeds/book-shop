@@ -5,6 +5,14 @@ const {check} = require("express-validator")
 const authMiddleware = require('../middleware/authMiddleware')
 const roleMiddleware = require('../middleware/roleMiddleware')
 const Product = require('../cart/Product')
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const multer = require("multer");
+
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+router.use(cookieParser());
+
 
 
 router.post('/registration', [
@@ -18,7 +26,9 @@ router.get('/logout',authMiddleware,(req,res)=>{
     res.clearCookie('token');
     res.redirect('/');
 })
-router.post('/forgot-password', controller.forgotPassword);
+router.get('/profile', authMiddleware,controller.getProfile)
 
+router.post('/forgot-password', controller.forgotPassword);
+router.post('/edit-profile',authMiddleware,controller.editProfile)
 
 module.exports = router

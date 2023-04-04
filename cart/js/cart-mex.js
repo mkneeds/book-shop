@@ -3,10 +3,19 @@
     var cart = {items:[],total:''};
 
     document.addEventListener('DOMContentLoaded', function() {
-        cart= getCart();
+        cart= getCartFromLocalStorage();
         updateCart(cart)
         console.log(cart)
     });
+
+    function getCartFromLocalStorage(){
+        const myArray = localStorage.getItem('myCart');
+        if(myArray) {
+            return JSON.parse(myArray);
+        } else {
+            return {items:[], total:''};
+        }
+    }
 
     var addToCart = function(product,qty){
         qty = qty || 1;
@@ -24,6 +33,7 @@
         }else{
             cart.items[indexOfId].qty++;
         }
+        localStorage.setItem('myCart', JSON.stringify(cart));
         updateCart(cart);
     }
 
@@ -78,6 +88,7 @@
                 $('#subtract-qty'+currentIndex).on('click',function(){
                     if(cart.items[currentIndex].qty != 1){
                         updateQuantity(cart.items[currentIndex].id,--cart.items[currentIndex].qty);
+                        localStorage.setItem('myArray', myArrayAsString);
                     }
                 });
             })();
@@ -86,6 +97,7 @@
                 var currentIndex = i;
                 $('#my-cart-remove'+currentIndex).on('click',function(){
                     removeFromCart(cart.items[currentIndex].id);
+                    localStorage.setItem('myArray', myArrayAsString);
                 });
             })();
         }
@@ -103,7 +115,7 @@
         var cart = getCart();
         var cartIndex = cart.items.findIndex(x => x.id == id);
         cart.items[cartIndex].qty = qty;
-        //Update popup cart
+        localStorage.setItem('myCart', JSON.stringify(cart));
         updateCart(cart);
     };
 
@@ -113,33 +125,33 @@
         var cartIndex = cart.items.findIndex(x => x.id == id);
 
         cart.items.splice(cartIndex,1);
-        //Update popup cart
+        localStorage.setItem('myCart', JSON.stringify(cart));
         updateCart(cart);
     };
 
     //Get Cart
     var getCart = function(){
-        const myArrayAsString = localStorage.getItem('myArray');
-        var myCart = JSON.parse(myArrayAsString);
+        var myCart = cart;
         return myCart;
     }
 
     //Update counter
     var updateCounter = function(val){
+
         $('.my-cart-counter').html(val);
+        localStorage.setItem('myCart', JSON.stringify(cart));
     }
 
     //Update total
     var updateTotal = function(val){
         $('.my-cart-total').html(' '+val.toFixed(2)+'$');
+        localStorage.setItem('myCart', JSON.stringify(cart));
     }
 
     //Checkout to sandbox payment gateway
     var checkout = function(){
 
     };
-
-    //Listeners
 
 
     //Toggle cart on icon click
@@ -153,3 +165,34 @@
         e.stopPropagation();
     });
 })();
+
+const payButton = document.getElementById('my-card')
+payButton.addEventListener('click', async () => {
+    try {
+        // Получаем массив из LocalStorage
+        const car = JSON.parse(localStorage.getItem('myCart'));
+        const cart = car.items
+        // Извлекаем необходимые данные из массива
+        const orders = cart.map(item => ({ name: item.name, price: item.price, quantity: item.qty }));
+        console.log(orders)
+        // Отправляем POST-запрос на сервер для сохранения заказов в базе данных
+        const response = await fetch('/products/order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orders })
+        });
+
+        // Проверяем ответ от сервера
+        if (response.ok) {
+            console.log('Заказы успешно сохранены в базе данных');
+            // Очищаем корзину
+            localStorage.removeItem('myCart');
+
+            window.location.href = '/products/all';
+        } else {
+            throw new Error('Ошибка сохранения заказов в базе данных');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/profile/css/profile-style.css">
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/icomoon/icomoon.css">
+    <link rel="stylesheet" type="text/css" href="/css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+<div class="profile-container">
+<div class="profile">
+    <img src="/images/server/{user.image}" class="profile-pic">
+    <ul>
+        <li><strong>ФИО:</strong> {user.fullName}</li>
+        <li><strong>Email:</strong> {user.email}</li>
+        <li><strong>Дата рождения:</strong> {user.birthdate}</li>
+        <li><strong>Адресс:</strong> {user.address}</li>
+    </ul>
+</div>
+<div class="right-button">
+    <a href="/"><button href="/">На главную</button></a>
+    <button id="edit-profile-button">Изменить профиль</button>
+    <button>История заказов</button>
+</div>
+</div>
+<div class="overlay"></div>
+<div id="edit-profile-form" style="display: none;" class="edit-profile-form">
+    <div class="popup-header">
+        <span class="close-button">&times;</span>
+    </div>
+    <form method="post" action="/auth/edit-profile" enctype="multipart/form-data">
+        <label for="fullName">ФИО:</label>
+        <input type="text" id="fullName" name="fullName" value="{user.fullName}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{user.email}">
+
+        <label for="birthdate">Дата рождения:</label>
+        <input type="date" id="birthdate" name="birthdate" value="{user.birthdate}" required>
+
+        <label for="address">Адрес:</label>
+        <input type="text" id="address" name="address" value="{user.address}" required>
+
+        <label for="image">Картинка:</label>
+        <input type="file" id="image" name="image" value="{user.fullName}" required>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+
+<script src="/profile/edit-profile.js"></script>
+</body>
+</html>

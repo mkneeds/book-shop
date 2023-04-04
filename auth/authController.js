@@ -7,6 +7,7 @@ const {secret} = require("./config")
 const http = require('http');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const multer = require("multer");
 
 
 const generateAccessToken = (id, roles) => {
@@ -24,7 +25,7 @@ class authController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: "Ошибка при регистрации", errors})
             }
-            const {username, password,email,fullName} = req.body;
+            const {username, password, email, fullName} = req.body;
 
             const candidate = await User.findOne({username})
             if (candidate) {
@@ -32,7 +33,7 @@ class authController {
             }
             const hashPassword = bcrypt.hashSync(password, 7);
             const userRole = await Role.findOne({value: "USER"})
-            const user = new User({username, password: hashPassword, roles: [userRole.value],fullName,email})
+            const user = new User({username, password: hashPassword, roles: [userRole.value], fullName, email})
             await user.save()
             return res.json({message: "Пользователь успешно зарегистрирован"})
         } catch (e) {
@@ -41,7 +42,6 @@ class authController {
             res.status(400).json({message: 'Registration error'})
         }
     }
-
 
     async login(req, res) {
         try {
@@ -54,8 +54,8 @@ class authController {
             if (!validPassword) {
                 return res.status(400).json({message: `Введен неверный пароль`})
             }
-            const token = generateAccessToken(user._id, user.roles);
-            res.cookie('token',token,{ httpOnly: true });
+            const token = generateAccessToken(user._id, user.roles)
+            res.cookie('token', token, {httpOnly: true});
             res.cookie('username', username);
             res.status(200)
             res.redirect('/');
@@ -73,12 +73,30 @@ class authController {
             console.log(e)
         }
     }
-    async forgotPassword(req, res){
+
+    async getProfile(req, res) {
+        const Order = require('C:\\Users\\User\\Desktop\\book-store\\cart\\orderSchema.js')
         try {
-            // Найти пользователя по электронной почте
-            const user = await User.findOne({ email: req.body.email });
+            const username = req.cookies.username;
+
+            const user = await User.findOne({username: username});
+            const order = await Order.findOne({username:username})
             if (!user) {
-                return res.status(404).json({ message: 'Пользователь с такой электронной почтой не найден' });
+                throw new Error("User not found");
+            }
+            res.render("C:\\Users\\User\\Desktop\\book-store\\views\\profile.dust", {user,order});
+        } catch (error) {
+            console.error(error);
+            res.render("Error");
+        }
+    }
+
+    async forgotPassword(req, res) {
+        try {
+
+            const user = await User.findOne({email: req.body.email});
+            if (!user) {
+                return res.status(404).json({message: 'Пользователь с такой электронной почтой не найден'});
             }
 
             // Генерировать временный токен сброса пароля
@@ -105,20 +123,54 @@ class authController {
                 to: user.email,
                 from: 'mkkiramk@mail.ru',
                 subject: 'Восстановление пароля (The Victors`s Book Co.)',
-                text: `Вы получили это письмо, потому что вы (или кто-то другой) запросили сброс пароля для вашей учетной записи.\n\n` +
-                    `Пожалуйста, перейдите по следующей ссылке, чтобы завершить процесс сброса пароля:\n\n` +
-                    `http://${req.headers.host}/reset-password/${token}\n\n` +
-                    `Если вы не запрашивали сброс пароля, проигнорируйте это письмо, и ваш пароль останется без изменений.\n`
+                text: `Вы получили это письмо, потому что вы (или кто-то другой) запросили пароль для вашей учетной записи.\n\n` +
+                    `Вот ваш пароль:\n\n` +
+                    `${user.password}\n\n` +
+                    `Если вы не запрашивали пароль, проигнорируйте это письмо.\n`
             };
 
             await transporter.sendMail(mailOptions);
-            res.status(200).json({ message: 'Письмо со ссылкой для сброса пароля отправлено на вашу электронную почту.' });
+            res.status(200).json({message: 'Письмо со ссылкой для сброса пароля отправлено на вашу электронную почту.'});
 
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Произошла ошибка при отправке письма для сброса пароля. Попробуйте позже.' });
+            res.status(500).json({message: 'Произошла ошибка при отправке письма для сброса пароля. Попробуйте позже.'});
         }
     }
-}
 
-module.exports = new authController()
+    async editProfile(req, res) {
+        const storage = multer.diskStorage({
+            destination: 'C:\\Users\\User\\Desktop\\book-store\\images\\server',
+            filename: function (req, file, cb) {
+                cb(null, `${file.fieldname}-${Date.now()}.png`);
+            },
+        });
+
+        const upload = multer({ storage: storage });
+
+        upload.single('image')(req, res, async function (err) {
+            if (err) {
+                console.log(err);
+                return res.status(500).send('Произошла ошибка на сервере');
+            }
+
+            const {fullName, email, birthdate, address} = req.body;
+            const username = req.cookies.username;
+            const imageName = req.file.filename;
+
+            try {
+                const updatedUser = await User.findOneAndUpdate(
+                    {username: username},
+                    {fullName, email, birthdate, address, image: imageName},
+                    {new: true}
+                );
+
+                res.send('Данные успешно обновлены');
+            } catch (err) {
+                console.log(err);
+                res.status(500).send('Произошла ошибка на сервере');
+            }
+        });
+    }
+}
+    module.exports = new authController()
