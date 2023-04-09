@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Профиль</title>
     <link rel="stylesheet" type="text/css" href="/profile/css/profile-style.css">
     <link rel="stylesheet" type="text/css" href="/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="/icomoon/icomoon.css">
@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
+
 <div class="profile-container">
 <div class="profile">
     <img src="/images/server/{user.image}" class="profile-pic">
@@ -27,9 +28,7 @@
 
 </div>
 <div class="right-button" id="right-button">
-    <a href="/"><button href="/"><img src="/images/profile/free-icon-turn-notifications-on-button-60977.png" style="height: 30px;"></button></a>
-    <button >Список желаемого</button>
-
+    <a href="/products/all"><button>В магазин</button></a>
 </div>
 
     <div class="right-button" id="right-button2">
@@ -47,12 +46,14 @@
         button.type = 'button';
         button.innerHTML = 'Товары';
         button.className = 'admin-but-1';
+        button.id ='admin-but-1';
         var container = document.getElementById('right-button');
         container.appendChild(button);
         var button2 = document.createElement('button');
         button2.type = 'button';
         button2.innerHTML = 'Статистика';
         button2.className = 'admin-but-3';
+        button2.id = 'admin-but-3';
         var container2 = document.getElementById('right-button');
         container2.appendChild(button2);
         console.log(12313);
@@ -63,6 +64,14 @@
         button3.id = 'admin-but-2';
         var container3 = document.getElementById('right-button2');
         container3.appendChild(button3);
+        console.log(12313);
+        var button4 = document.createElement('button');
+        button4.type = 'button';
+        button4.innerHTML = 'Отправить рассылку';
+        button4.className = 'admin-but-4';
+        button4.id = 'admin-but-4';
+        var container4 = document.getElementById('right-button');
+        container4.appendChild(button4);
         console.log(12313);
     }
 </script>
@@ -242,17 +251,97 @@
         </script>
     </div>
 </div>
+
 <div id="product_modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <div class="edit-user">
             <button id="add-product">Добавить товар</button>
             <button id="delete-product">Удалить товар</button>
-            <button id="edit-product">Изменить товар</button>
         </div>
     </div>
 </div>
+
+<div id="add_product_modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="add-product">
+            <form id="create-product-form" method="post" enctype="multipart/form-data" action="/auth/add-product">
+                <div>
+                    <label for="name">Название продукта:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="description">Описание:</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                <div>
+                    <label for="price">Цена:</label>
+                    <input type="number" id="price" name="price" required>
+                </div>
+                <div>
+                    <label for="quantity">Количество:</label>
+                    <input type="number" id="quantity" name="quantity" required>
+                </div>
+                <div>
+                    <label for="category">Категория:</label>
+                    <input type="text" id="category" name="category" required>
+                </div>
+                <div>
+                    <label for="image">Картинка:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div>
+                    <button type="submit" id="create-product-btn">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="delete_product_modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="delete-user-form" method="post" action="/auth/delete-product">
+            <label for="product-name">Выберите товар для удаления:</label>
+            <select name="productName" id="product-name">
+                {#products}
+                    <option value="{name}">{name}</option>
+                {/products}
+            </select>
+            <br>
+            <button type="submit">Удалить</button>
+            <div id="message-container"></div>
+        </form>
+
+    </div>
+</div>
+
+<div id="statistic_modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="statistics">
+            <p><b>Количество пользователей:</b> {data.usersCount}</p>
+            <p><b>Количество заказов:</b> {data.ordersCount}</p>
+            <p><b>Количество продаваемых товаров:</b> {data.productsCount}</p>
+            <p><b>Общая прибыль:</b> {data.totalRevenue}<b>$</b></p>
+        </div>
+    </div>
+</div>
+<div id="news_modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form method="POST" id="message-form">
+            <label for="subject">Тема:</label>
+            <input type="text" id="subject" name="subject" required>
+            <label for="message">Сообщение:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+</div>
+
 <script src="/profile/js/edit-profile.js"></script>
 <script src="/profile/js/manage_user.js"></script>
+<script src="/profile/js/manage_product.js"></script>
 </body>
 </html>

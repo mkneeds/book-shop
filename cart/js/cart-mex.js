@@ -196,3 +196,26 @@ payButton.addEventListener('click', async () => {
         console.error(error);
     }
 });
+
+const searchForm = document.querySelector('.search-box');
+const searchInput = searchForm.querySelector('.search-input');
+
+searchForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const searchTerm = searchInput.value.toLowerCase();
+    const searchResults = document.querySelectorAll('*:not(script):not(style)');
+    let found = false;
+
+    searchResults.forEach((el) => {
+        if (el.innerText.toLowerCase().includes(searchTerm)) {
+            el.classList.add('search-result');
+            found = true;
+        } else {
+            el.classList.remove('search-result');
+        }
+    });
+
+    if (!found) {
+        alert('No results found.');
+    }
+});

@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const buttonn = document.getElementById("reg-button");
     buttonn.addEventListener('click', function(event) {
+        var modal_2 = document.getElementById("regForm");
+        modal_2.style.display ="none";
     const fio = document.getElementById("fio").value;
     const email = document.getElementById("email").value;
     const reg_login = document.getElementById("reg-login").value;
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
 })
     .then(response => response.json())
     .then(data => {
-    console.log(data); // выводим ответ сервера в консоль
+    alert(data.message); // выводим ответ сервера в консоль
 })
     .catch(error => {
     console.error(error); // выводим ошибку в консоль, если что-то пошло не так

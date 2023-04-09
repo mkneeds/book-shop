@@ -1,5 +1,6 @@
 const User = require('./User')
 const Role = require('./Role')
+const Product = require('../cart/Product')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator')
@@ -82,11 +83,26 @@ class authController {
             const user = await User.findOne({username: username});
             const users = await User.find({});
             const roles = await Role.find({});
-            const order = await Order.find({user:username})
+            const order = await Order.find({user:username});
+            const products = await Product.find({});
+            const usersCount = await User.countDocuments();
+            const ordersCount = await Order.countDocuments();
+            const productsCount = await Product.countDocuments();
+            const totalRevenue = await Order.aggregate([
+                { $project: { total: { $multiply: ['$price', '$quantity'] } } },
+                { $group: { _id: null, total: { $sum: '$total' } } }
+            ]);
+            const data = {
+                usersCount,
+                ordersCount,
+                productsCount,
+                totalRevenue: totalRevenue[0].total
+            };
+
             if (!user) {
                 throw new Error("User not found");
             }
-            res.render("C:\\Users\\User\\Desktop\\book-store\\views\\profile.dust", {user,order,users,roles});
+            res.render("C:\\Users\\User\\Desktop\\book-store\\views\\profile.dust", {user,order,users,roles,products,data});
         } catch (error) {
             console.error(error);
             res.render("Error");
@@ -167,7 +183,7 @@ class authController {
                     {new: true}
                 );
 
-                res.send('Данные успешно обновлены');
+                res.redirect('/auth/profile');
             } catch (err) {
                 console.log(err);
                 res.status(500).send('Произошла ошибка на сервере');
@@ -194,8 +210,54 @@ class authController {
             user.roles = roles;
             await user.save();
             res.status(200).json({ message: "Роли пользователя обновлены" });
+
         } catch (err) {
             res.status(500).json({ error: err.message });
+        }
+    }
+    async deleteProduct(req,res){
+        const productName = req.body.productName;
+        try {
+            const deletedProduct = await Product.deleteOne({ name: productName });
+
+            res.redirect('/products/all');
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    }
+    async sendEmail(req,res){
+        const { subject, message } = req.body;
+
+        try {
+            // Fetch all users from the database
+            const users = await User.find({}, 'email');
+
+            // Create a new transport object with SMTP settings
+            const transport = nodemailer.createTransport({
+                host: 'smtp.mail.ru',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: 'mkkiramk@mail.ru',
+                    pass: 'eNT6F7gzjNetpKkzvhMk'
+                },
+                rejectUnauthorized: false
+            });
+
+
+            for (const user of users) {
+                const mailOptions = {
+                    from: 'mkkiramk@mail.ru',
+                    to: user.email,
+                    subject,
+                    text: message,
+                };
+                await transport.sendMail(mailOptions);
+            }
+
+            res.json({ message: 'Сообщение отправлено всем пользователям' });
+        } catch (err) {
+            res.status(500).send(err);
         }
     }
 }

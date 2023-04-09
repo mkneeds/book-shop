@@ -33,9 +33,7 @@ router.get('/add',roleMiddleware(["ADMIN"]), (req, res) => {
 
 router.get('/all',productController.getAllProductsAndCategories);
 router.get('/cart',authMiddleware,productController.getCart);
-
 router.post('/order',authMiddleware,productController.createOrder)
-
 router.post('/', upload.single('image'), async (req, res, next) => {
     const product = new Product({
         name: req.body.name,

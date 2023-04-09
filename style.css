@@ -1350,6 +1350,8 @@ img.post-image {
     text-align: inherit;
 }
 #billboard button.slick-arrow {
+  margin-left: -100px;
+  margin-right: -80px;
     background: transparent;
     border: 1px solid #E5E3DA;
     padding: initial;

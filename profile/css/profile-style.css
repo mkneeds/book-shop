@@ -309,3 +309,82 @@
 #manage-roles-form br {
     display: none;
 }
+.add-product {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+
+}
+
+.add-product h2 {
+    text-align: center;
+}
+
+.add-product form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-product label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.add-product input[type="text"],
+.add-product input[type="number"],
+.add-product textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.add-product input[type="file"] {
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+.add-product button[type="submit"] {
+    width: 200px;
+    display: inline;
+    border-radius: 50px;
+    margin-right: 50px;
+    margin-left: 55px;
+    font-size: 12px;
+}
+
+.add-product button[type="submit"]:hover {
+    background-color: #ee9999;
+}
+.statistics{
+    margin-top: 50px;
+    margin-left: 35%;
+}
+#message-form{
+    margin-left:30%;
+}
+#message-form button{
+    width: 200px;
+    display: inline;
+    border-radius: 50px;
+    margin-right: 150px;
+    margin-left: 55px;
+    font-size: 12px;
+}
+#message-form input{
+    width:300px;
+}
+#message-form textarea{
+    width:300px;
+}
+#background-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
