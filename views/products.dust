@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Store</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/icomoon/icomoon.css">
+    <link rel="stylesheet" type="text/css" href="/css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/auth/css/auth-profile.css">
+    <link rel="stylesheet" type="text/css" href="/css/log-reg.css">
+    <link rel="stylesheet" type="text/css" href="/cart/css/card-shop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="/cart/css/cart-design.css">
+    <!-- script
+    ================================================== -->
+    <script src="/js/modernizr.js"></script>
+    <script src="/auth/html-auth.js"></script>
+    <script src="/cart/js/category.js"></script>
+
+</head>
+
+<body>
+<div class="login-box" id="loginForm">
+    <h2 style="text-decoration: underline;  text-underline-offset: 0.4em;">Авторизация</h2>
+    <form method="post" >
+        <div class="button-close-auth"><div class="cl-btn-7" onclick="closeLoginForm()"></div></div>
+
+        <div class="user-box">
+            <input type="text" name="username-login" required="" id="username-login">
+            <label>Логин</label>
+        </div>
+        <div class="user-box">
+            <input type="password" name="password-login" required="" id="password-login">
+            <label>Пароль</label>
+        </div>
+        <div class="pre-button">
+            <a style="font-size: 8px;">Забыли пароль?</a>
+
+        </div>
+        <a type="submit" href="#" onclick="" id="login-button">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Войти
+        </a>
+        <a onclick="openRegForm()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Регистрация
+        </a>
+    </form>
+</div>
+
+
+<div class="login-box" id="regForm">
+    <h2 style="text-decoration: underline;  text-underline-offset: 0.4em;">Регистрация</h2>
+    <form method="post" >
+        <div class="button-close-auth"><div class="cl-btn-7" onclick="closeLoginForm()"></div></div>
+
+        <div class="user-box">
+            <input type="text" name="fio" id="fio" required="">
+            <label>ФИО</label>
+        </div>
+
+        <div class="user-box">
+            <input  type="email" name="email" required="" id="email" placeholder="">
+            <label>Email</label>
+        </div>
+        <div class="user-box">
+            <input type="text" name="reg-login" required="" id="reg-login" placeholder="">
+            <label>Логин</label>
+        </div>
+        <div class="user-box">
+            <input type="password" name="reg-password" id="reg-password" required="">
+            <label>Пароль</label>
+        </div>
+
+        <a type="submit" href="#" onclick="" id="reg-button">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Зарегистрироваться
+        </a>
+
+    </form>
+</div>
+<div id="header-wrap">
+    <div class="top-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="social-links">
+                        <ul>
+                            <li>
+                                <a href="#"><i class="icon icon-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon icon-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon icon-youtube-play"></i></a>
+                            </li>
+
+                        </ul>
+                    </div><!--social-links-->
+                </div>
+                <div class="col-md-6">
+                    <div class="right-element">
+                        <a href="#" class="user-account for-buy"><i class="icon icon-user"></i><span onclick="openLoginForm()" id="auth-button"> Войти в аккаунт</span></a>
+                        <a href="#" class="my-cart-icon">
+                            <i class="fa fa-shopping-cart"></i>
+                             Корзина
+                            <span class="badge my-cart-counter">0 </span>
+                        </a>
+
+                        <div class="action-menu">
+
+                            <div class="search-bar">
+                                <a href="#" class="search-button search-toggle" data-selector="#header-wrap">
+                                    <i class="icon icon-search"></i>
+                                </a>
+                                <form role="search" method="get" class="search-box">
+                                    <input class="search-field text search-input" placeholder="Search" type="search">
+                                </form>
+                            </div>
+                        </div>
+                    </div><!--top-right-->
+                </div>
+            </div>
+            <div class="container my-cart-popup">
+                <div class="shopping-cart">
+                    <div class="shopping-cart-header">
+                        <div class="shopping-cart-total">
+                            <span class="lighter-text">Итого:</span>
+                            <span class="main-color-text my-cart-total"></span>
+                        </div>
+                    </div> <!--end shopping-cart-header -->
+
+                    <ul class="shopping-cart-items">
+                        Пусто
+                    </ul>
+
+                    <button class="my-card-add" id="my-card">
+                        <span>Заказать</span>
+                        <i class="fa fa-shopping-cart"></i>
+                    </button>
+                </div> <!--end shopping-cart -->
+            </div> <!--end container -->
+        </div>
+    </div><!--top-content-->
+
+    <header id="header">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-2">
+                    <div class="main-logo">
+                        <b style="font-size: 25px; color: rgba(14,12,2,0.81)">The Victors`s Book Co.</b>
+                    </div>
+
+                </div>
+
+                <div class="col-md-10">
+
+                    <nav id="navbar">
+                        <div class="main-menu stellarnav">
+                            <ul class="menu-list">
+                                <li class="menu-item"><a href="/" data-effect="Home">Главная</a></li>
+                                <li class="menu-item active"><a href="/products/all" class="nav-link" data-effect="About">Магазин</a></li>
+                                <li class="menu-item"><a href="#popular-books" class="nav-link" data-effect="Shop">О нас</a></li>
+                                <li class="menu-item"><a href="#contact" class="nav-link" data-effect="Contact">Контакты</a></li>
+
+                            </ul>
+
+                            <div class="hamburger">
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                                <span class="bar"></span>
+                            </div>
+
+                        </div>
+                    </nav>
+
+                </div>
+
+            </div>
+        </div>
+    </header>
+</div>
+
+
+<ul class="tabs">
+    <li class="active tab" data-category="all">Все жанры</li>
+    {#categories}
+        <li class="tab" data-category="{.}">{.}</li>
+    {/categories}
+</ul>
+
+
+
+
+<div class="products-container">
+    {#products}
+        <div class="product-card" data-category="{category}">
+            <div class="product-image">
+                <img src="/images/server/{imageName}" alt="{name}">
+            </div>
+            <div class="product-details">
+                <h2 class="my-cart-name product my-cart-id" id="{id}">{name}</h2>
+                <p class="product-description">{description}</p>
+                <p class="price my-cart-price product-price">{price}$</p>
+                <p class="product-category">{category}</p>
+                <p class="item-quantity">{quantity}</p>
+                <button class="my-cart-add" {#quantity}{#isZero}{disabled}{/isZero}{/quantity}>
+                    <span>В корзину</span>
+                    <i class="fa fa-shopping-cart"></i>
+                </button>
+            </div>
+        </div>
+    {/products}
+</div>
+
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/script.js"></script>
+<script src="/auth/open-close-div.js"></script>
+<script src="/cart/js/cart-mex.js"></script>
+</body>
+</html>

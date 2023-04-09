@@ -80,11 +80,13 @@ class authController {
             const username = req.cookies.username;
 
             const user = await User.findOne({username: username});
-            const order = await Order.findOne({username:username})
+            const users = await User.find({});
+            const roles = await Role.find({});
+            const order = await Order.find({user:username})
             if (!user) {
                 throw new Error("User not found");
             }
-            res.render("C:\\Users\\User\\Desktop\\book-store\\views\\profile.dust", {user,order});
+            res.render("C:\\Users\\User\\Desktop\\book-store\\views\\profile.dust", {user,order,users,roles});
         } catch (error) {
             console.error(error);
             res.render("Error");
@@ -171,6 +173,30 @@ class authController {
                 res.status(500).send('Произошла ошибка на сервере');
             }
         });
+    }
+    async deleteUser(req, res) {
+        try {
+            console.log(111);
+            const userId = req.body.userId;
+            await User.findByIdAndDelete(userId);
+            console.log(userId);
+            res.status(200).json({ message: "Пользователь успешно удалён" });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
+    async updateRoles(req,res){
+        try {
+            const userId = req.body.userId;
+            const roles = req.body.roles || [];
+            const user = await User.findOne({ _id: userId });
+
+            user.roles = roles;
+            await user.save();
+            res.status(200).json({ message: "Роли пользователя обновлены" });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     }
 }
     module.exports = new authController()

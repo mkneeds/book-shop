@@ -21,14 +21,51 @@
         <li><strong>Email:</strong> {user.email}</li>
         <li><strong>Дата рождения:</strong> {user.birthdate}</li>
         <li><strong>Адресс:</strong> {user.address}</li>
+        <li><strong>Роль на сайте:</strong> {user.roles}</li>
+
     </ul>
+
 </div>
-<div class="right-button">
-    <a href="/"><button href="/">На главную</button></a>
-    <button id="edit-profile-button">Изменить профиль</button>
-    <button>История заказов</button>
+<div class="right-button" id="right-button">
+    <a href="/"><button href="/"><img src="/images/profile/free-icon-turn-notifications-on-button-60977.png" style="height: 30px;"></button></a>
+    <button >Список желаемого</button>
+
 </div>
+
+    <div class="right-button" id="right-button2">
+
+        <a href="/"><button href="/">На главную</button></a>
+        <button id="edit-profile-button">Изменить профиль</button>
+        <button id="history-order">История заказов</button>
+    </div>
+
 </div>
+
+<script>
+    if ("{user.roles}" === "ADMIN") {
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.innerHTML = 'Товары';
+        button.className = 'admin-but-1';
+        var container = document.getElementById('right-button');
+        container.appendChild(button);
+        var button2 = document.createElement('button');
+        button2.type = 'button';
+        button2.innerHTML = 'Статистика';
+        button2.className = 'admin-but-3';
+        var container2 = document.getElementById('right-button');
+        container2.appendChild(button2);
+        console.log(12313);
+        var button3 = document.createElement('button');
+        button3.type = 'button';
+        button3.innerHTML = 'Управление юзерами';
+        button3.className = 'admin-but-2';
+        button3.id = 'admin-but-2';
+        var container3 = document.getElementById('right-button2');
+        container3.appendChild(button3);
+        console.log(12313);
+    }
+</script>
 <div class="overlay"></div>
 <div id="edit-profile-form" style="display: none;" class="edit-profile-form">
     <div class="popup-header">
@@ -52,7 +89,170 @@
         <button type="submit">Сохранить</button>
     </form>
 </div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="orders">
+            <h2>Список заказов</h2>
+            <div class="orders-wrapper">
+                {#order}
+                    <div class="order">
+                        <p><b>Название продукта</b>: {productName}</p>
+                        <p><b>Цена:</b> {price}</p>
+                        <p><b>Количество:</b> {quantity}</p>
+                        <p><b>Дата:</b> {date}</p>
+                    </div>
+                    <hr>
+                {/order}
+            </div>
 
-<script src="/profile/edit-profile.js"></script>
+        </div>
+    </div>
+</div>
+<div id="user_modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="edit-user">
+            <button id="delete-user">Удалить пользователя</button>
+            <button id="list-user">Список пользователей</button>
+            <button id="role-user">Управление ролями</button>
+        </div>
+    </div>
+</div>
+<div id="list_user_modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="list-user">
+        <table>
+            <thead>
+            <tr>
+                <th>ФИО</th>
+                <th>Email</th>
+                <th>Роль</th>
+            </tr>
+            </thead>
+            <tbody>
+                {#users}
+                <tr>
+                    <td>{fullName}</td>
+                    <td>{email}</td>
+                    <td>{roles}</td>
+                </tr>
+                {/users}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+<div id="delete_modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="delete-user-form" method="post" action="/auth/delete-user">
+            <label for="users">Выберите пользователя для удаления:</label>
+            <select name="userId" id="users">
+                {#users}
+                    <option value="{_id}">{username}</option>
+                {/users}
+            </select>
+            <br>
+            <button type="submit">Удалить пользователя</button>
+            <div id="message-container"></div>
+        </form>
+        <script>
+            const form = document.querySelector('#delete-user-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const userId = formData.get('userId');
+
+            try {
+                const response = await fetch('/auth/delete-user', {
+                    method: 'POST',
+                    body: JSON.stringify({ userId }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const data = await response.json();
+                const messageContainer = document.querySelector('#message-container');
+
+                if (response.ok) {
+                    messageContainer.textContent = data.message;
+                } else {
+                    messageContainer.textContent = `Ошибка: ${data.error}`;
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+        </script>
+    </div>
+</div>
+<div id="role-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="manage-roles-form" method="post" action="/auth/update-roles">
+            <label for="user-id">Выберите пользователя:</label>
+            <select name="userId" id="user-id">
+                {#users}
+                    <option value="{_id}">{username}</option>
+                {/users}
+            </select>
+            <br>
+
+            <label>Выберите роль:</label>
+            {#roles}
+                <input type="checkbox" name="roles[]" value="{value}" id="{value}">
+                <label for="{value}">{value}</label>
+                <br>
+            {/roles}
+
+            <button type="submit">Сохранить</button>
+            <div id="message-container"></div>
+        </form>
+        <script>
+            const form = document.querySelector('#manage-roles-form');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+                const userId = formData.get('userId');
+                const roles = formData.getAll('roles');
+
+                try {
+                    const response = await fetch('/auth/update-roles', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId, roles })
+                    });
+
+                    const data = await response.json();
+                    const messageContainer = document.querySelector('#message-container');
+
+                    if (response.ok) {
+                        messageContainer.textContent = data.message;
+                    } else {
+                        messageContainer.textContent = `Ошибка: ${data.error}`;
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+
+        </script>
+    </div>
+</div>
+<div id="product_modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="edit-user">
+            <button id="add-product">Добавить товар</button>
+            <button id="delete-product">Удалить товар</button>
+            <button id="edit-product">Изменить товар</button>
+        </div>
+    </div>
+</div>
+<script src="/profile/js/edit-profile.js"></script>
+<script src="/profile/js/manage_user.js"></script>
 </body>
 </html>

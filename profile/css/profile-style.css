@@ -36,18 +36,18 @@
     width: 100%;
 }
 .right-button {
-z-index: 9999;
-    flex-direction: column;
-    align-items: flex-end;
+    z-index: 9999;
     margin-top:250px;
     border-radius: 15px;
     right: 300px; /* прижимаем к правому краю */
     transform: translateY(-50%); /* корректируем вертикальное выравнивание */
-    margin-left: 700px; /* добавляем небольшой отступ слева */
+    margin-left: 200px;
+    /* width: 900px; */
+    margin-right: 100px;
 }
 .right-button button {
     margin-right: 100px;
-    width: 220px;
+    width: 230px;
     display: block;
     margin-bottom: 10px;
     border-radius: 50px;
@@ -67,7 +67,7 @@ z-index: 9999;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     font-family: Arial, sans-serif;
     font-size: 16px;
-    height: 700px;
+    height: 750px;
 }
 
 
@@ -132,4 +132,180 @@ z-index: 9999;
 
 .close-button:hover {
     color: #000;
+}
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #e0ddd5;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 100px;
+}
+.modal-content p {
+    line-height: 0.1;
+    font-family: 'Roboto', sans-serif;
+}
+.modal-content hr {
+    line-height: 0.1;
+    border-color: black;
+    margin: 0;
+}
+
+.modal-content h2 {
+    margin-left: 250px;
+    padding-left: 25px;
+    width: 250px;
+    color: goldenrod;
+    background-color: #494844;
+    border-radius: 100px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.orders-wrapper {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.order {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.orders {
+    margin-bottom: 20px;
+}
+
+.left-buttonn{
+    margin-top: -490px;
+    margin-left:270px;
+}
+
+.edit-user button {
+    width: 170px;
+    display: inline;
+    border-radius: 50px;
+    margin-right: 50px;
+    margin-left: 25px;
+    font-size: 10px;
+}
+.list-user table {
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin-left: 16%;
+    width: 500px;
+}
+.list-user table td, table th {
+    border: 1px solid black;
+    text-align: center;
+
+}
+.list-user td:nth-child(3) {
+    width: 30%;
+}
+.list-user td:nth-child(1) {
+    width: 50%;
+}
+#delete-user-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#message-container {
+    margin-top: 10px;
+}
+#delete-user-form button {
+    width: 200px;
+    display: inline;
+    border-radius: 50px;
+    margin-right: 50px;
+    margin-left: 55px;
+    font-size: 12px;
+}
+#manage-roles-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#manage-roles-form button{
+    width: 200px;
+    display: inline;
+    border-radius: 50px;
+    margin-right: 50px;
+    margin-left: 55px;
+    font-size: 12px;
+}
+#manage-roles-form select{
+    padding: 8px 20px; /* добавляем внутренний отступ */
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    background-image: linear-gradient(to bottom, #fff 0%, #e6e6e6 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px; /* ограничиваем максимальную ширину */
+}
+#manage-roles-form select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-color: #66afe9;
+}
+
+#manage-roles-form select option {
+    padding: 10px;
+    font-size: 16px;
+}
+#manage-roles-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    align-items: center;
+}
+
+#manage-roles-form input[type="checkbox"] {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#manage-roles-form label[for] {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#manage-roles-form br {
+    display: none;
 }

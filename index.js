@@ -35,12 +35,16 @@ const start = async () => {
                 console.log(`OH NO! MONGO CONNECTION ERROR!`);
                 console.log(err);
             })
+
         app.get('/', (req, res) => {
-            res.sendFile(`C:\\Users\\User\\Desktop\\book-store\\index.html`);
+            res.render(`C:\\Users\\User\\Desktop\\book-store\\index.html`);
         });
-       app.get('/shop', (req, res) => {
-           res.sendFile(`C:\\Users\\User\\Desktop\\book-store\\shop.html`);
-       });
+        app.use(function(req, res, next) {
+            res.status(404);
+            res.sendFile('C:\\Users\\User\\Desktop\\book-store\\views\\error.html');
+        });
+
+
 
         app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`))
     } catch (e) {

@@ -20,15 +20,16 @@ router.post('/registration', [
     check('password', "Пароль должен быть больше 4 и меньше 10 символов").isLength({min:4, max:10})
 ], controller.registration)
 router.post('/login', controller.login)
-router.get('/users', roleMiddleware(["ADMIN"]), controller.getUsers)
+router.get('/users', roleMiddleware(["ADMIN"]), controller.getUsers);
 router.get('/logout',authMiddleware,(req,res)=>{
     res.clearCookie('username');
     res.clearCookie('token');
     res.redirect('/');
 })
-router.get('/profile', authMiddleware,controller.getProfile)
+router.get('/profile', authMiddleware,controller.getProfile);
 
 router.post('/forgot-password', controller.forgotPassword);
-router.post('/edit-profile',authMiddleware,controller.editProfile)
-
+router.post('/edit-profile',authMiddleware,controller.editProfile);
+router.post('/delete-user',roleMiddleware(["ADMIN"]),controller.deleteUser);
+router.post('/update-roles',roleMiddleware(["ADMIN"]),controller.updateRoles);
 module.exports = router
